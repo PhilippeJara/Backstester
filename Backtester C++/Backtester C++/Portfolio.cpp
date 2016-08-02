@@ -12,9 +12,9 @@ double portfolio::getCash()
 {
 	return cashBalance;
 }
-std::vector<std::vector<std::string>, double> portfolio::getPos() 
+std::vector<std::pair<std::string, double>> portfolio::getPos() 
 {
-	return positions;
+	return position;
 }
 double portfolio::getBalance() 
 {

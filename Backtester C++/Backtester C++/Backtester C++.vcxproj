@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="cmdManager.h" />
     <ClInclude Include="csv.h" />
     <ClInclude Include="instrument.h" />
     <ClInclude Include="order.h" />
@@ -149,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="body.cpp" />
+    <ClCompile Include="cmdManager.cpp" />
     <ClCompile Include="csv.cpp" />
     <ClCompile Include="Instrument.cpp" />
     <ClCompile Include="order.cpp" />

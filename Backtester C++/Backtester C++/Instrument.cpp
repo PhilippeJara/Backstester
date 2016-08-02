@@ -14,7 +14,20 @@ instrument::instrument()
 	std::vector<double> close(0);
 	std::vector<double> volume(0);
 };
-
+instrument::instrument(std::string nome)
+{
+	std::string name = nome;
+	std::vector<std::string> date(0);
+	std::vector<double> open(0);
+	std::vector<double> high(0);
+	std::vector<double> low(0);
+	std::vector<double> close(0);
+	std::vector<double> volume(0);
+};
+std::string instrument::getName() 
+{
+	return name;
+}
 std::vector<std::string> instrument::getDate()
 {
 	return date;

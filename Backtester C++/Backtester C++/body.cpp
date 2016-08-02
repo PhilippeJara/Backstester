@@ -3,14 +3,37 @@
 #include <vector>
 #include "csv.h"
 #include "instrument.h"
+#include "cmdManager.h"
 
 int main()
-{	
+{
+	instrument *f[20];
+	cmd cmd;
+	int instCount = 0;
 	int p = 0;
+	std::string in;
+	std::string path = "C:\\Users\\Philippe\\Desktop\\papeis\\dados\\" + in + ".csv";
+	
+	while (p < 1) {
+		std::cin >> in;
+		cmd.cmdParse(in, f, instCount);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*int p = 0;
 	std::string inputPath;
 	std::string path;
 	std::string file;
-	instrument fI;
 	instrument *f[20];
 	int count = 0;
 	while (p < 1)
@@ -22,12 +45,12 @@ int main()
 		f[count] = new instrument();
 		f[count] -> name = inputPath;
 		file.parseToInstrument(*f[count], path, ',');
-		result = f[count] -> getDate(500, 800);
-		for (int i = 0; i < 299; i++)
+		result = f[count] -> getDate();
+		for (int i = 0; i < 1000; i++)
 		{
 			std::cout << result[i] << std::endl;
 		}
 		count++;
-	}
+	}*/
 	return 0;
 }

@@ -20,9 +20,13 @@ public:
 
 //public:
 	instrument::instrument();
+	instrument::instrument(std::string);
 	
 	friend class csv;
 	
+	std::string instrument::getName();
+
+
 	std::vector<std::string> instrument::getDate();
 	std::vector<std::string> instrument::getDate(unsigned int, unsigned int);
 	std::string instrument::getDate(int);
