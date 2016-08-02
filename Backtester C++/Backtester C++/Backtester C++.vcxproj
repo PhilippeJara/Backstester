@@ -144,12 +144,14 @@
   <ItemGroup>
     <ClInclude Include="csv.h" />
     <ClInclude Include="instrument.h" />
+    <ClInclude Include="order.h" />
     <ClInclude Include="Portfolio.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="body.cpp" />
     <ClCompile Include="csv.cpp" />
     <ClCompile Include="Instrument.cpp" />
+    <ClCompile Include="order.cpp" />
     <ClCompile Include="Portfolio.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

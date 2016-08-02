@@ -20,6 +20,7 @@ public:
 
 //public:
 	instrument::instrument();
+	
 	friend class csv;
 	
 	std::vector<std::string> instrument::getDate();
