@@ -19,6 +19,7 @@ int main()
 		cmd.cmdParse(in, f, instCount);
 	}
 	
+	std::cout << "abc";
 	
 	
 	

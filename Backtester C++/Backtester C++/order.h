@@ -6,7 +6,7 @@
 class order 
 {
 	friend class Portfolio;
-	std::string paper;
+	std::string name;
 	int type; //1 == mrktBuy 0 == mrktSell
 	double priceOnEntry;
 	double stopLoss;
@@ -21,8 +21,10 @@ public:
 	double order::getPriceOnEntry();
 	double order::getStopLoss();
 	int order::getSize();
+	int order::getSizeModule();
 	std::string order::getTime();
 	int order::getStatus();
+	std::string order::getName();
 	//change
 	void order::changeStatus(int);
 	//move

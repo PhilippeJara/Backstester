@@ -5,7 +5,7 @@ order::order(std::string papr, int tpe, double poe,std::string tme, int sze)
 {
 	if (tpe == 0 || tpe == 1)
 	{
-		paper = papr;
+		name = papr;
 		type = tpe;
 		size = sze;
 		time = tme;
@@ -17,7 +17,7 @@ order::order(std::string papr, int tpe, double poe, std::string tme, int sze, do
 {
 	if (type == 0 || type == 1) 
 	{
-		paper = papr;
+		name = papr;
 		type = tpe;
 		size = sze;
 		time = tme;
@@ -41,6 +41,17 @@ double order::getStopLoss()
 }
 int order::getSize()
 {
+	if (type==1)
+	{
+		return size;
+	}
+	else
+	{
+		return (size * -1);
+	}
+}
+int order::getSizeModule()
+{
 	return size;
 }
 std::string order::getTime()
@@ -50,6 +61,10 @@ std::string order::getTime()
 int order::getStatus()
 {
 	return status;
+}
+std::string order::getName() 
+{
+	return name;
 }
 //change
 void order::changeStatus(int stat)
