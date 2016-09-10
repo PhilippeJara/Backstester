@@ -1,16 +1,31 @@
 #pragma once
 #include <string>
 #include "Portfolio.h"
+#include "instrument.h"
+
 class order 
 {
 	friend class Portfolio;
+	std::string paper;
 	int type; //1 == mrktBuy 0 == mrktSell
 	double priceOnEntry;
 	double stopLoss;
 	int size;
 	std::string time;
-	int status; //0 == pending 1 == filled
+	int status; //0 == pending 1 == sent 2 == filled and unnoticed 3 == filled and noticed
 public:
-	order::order(int, double,std::string, int);
-	order::order(int, double,std::string, int, double);
+	order::order(std::string, int, double,std::string, int);
+	order::order(std::string, int, double,std::string, int, double);
+	//get
+	int order::getType();
+	double order::getPriceOnEntry();
+	double order::getStopLoss();
+	int order::getSize();
+	std::string order::getTime();
+	int order::getStatus();
+	//change
+	void order::changeStatus(int);
+	//move
+	void order::send();
+
 };

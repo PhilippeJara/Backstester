@@ -1,10 +1,11 @@
 #include "order.h"
 
 
-order::order(int tpe, double poe,std::string tme, int sze)
+order::order(std::string papr, int tpe, double poe,std::string tme, int sze)
 {
 	if (tpe == 0 || tpe == 1)
 	{
+		paper = papr;
 		type = tpe;
 		size = sze;
 		time = tme;
@@ -12,14 +13,52 @@ order::order(int tpe, double poe,std::string tme, int sze)
 
 	}
 }
-order::order(int tpe, double poe, std::string tme, int sze, double sl) 
+order::order(std::string papr, int tpe, double poe, std::string tme, int sze, double sl) 
 {
 	if (type == 0 || type == 1) 
 	{
+		paper = papr;
 		type = tpe;
 		size = sze;
 		time = tme;
 		priceOnEntry = poe;
 		stopLoss = sl;
 	}
+}
+
+//get
+int order::getType() 
+{
+	return type;
+}
+double order::getPriceOnEntry() 
+{
+	return priceOnEntry;
+}
+double order::getStopLoss()
+{
+	return stopLoss;
+}
+int order::getSize()
+{
+	return size;
+}
+std::string order::getTime()
+{
+	return time;
+}
+int order::getStatus()
+{
+	return status;
+}
+//change
+void order::changeStatus(int stat)
+{
+	status = stat;
+}
+//move
+void order::send()
+{
+	status = 2;
+
 }
