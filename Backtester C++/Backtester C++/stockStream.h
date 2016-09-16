@@ -12,7 +12,7 @@ class stockStream
 	double close;
 	double volume;
 	int index;
-
+	 
 public:
 	stockStream::stockStream(instrument&);
 	void stockStream::getNext();
