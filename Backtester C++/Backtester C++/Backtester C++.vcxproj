@@ -147,6 +147,7 @@
     <ClInclude Include="instrument.h" />
     <ClInclude Include="order.h" />
     <ClInclude Include="Portfolio.h" />
+    <ClInclude Include="stockStream.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="body.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="Instrument.cpp" />
     <ClCompile Include="order.cpp" />
     <ClCompile Include="Portfolio.cpp" />
+    <ClCompile Include="stockStream.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

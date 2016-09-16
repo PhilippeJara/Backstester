@@ -50,12 +50,15 @@ int portfolio::newOrder(std::string papr, int tpe, double poe, std::string tme, 
 	ordersPending.push_back(order(papr, tpe, poe, tme, sze, sl));
 	return ordersPending.size();
 }
-int portfolio::sendOrder(int indx)  //o == order not sent // 1 == order already sent // 2 == order alrady filled
+int portfolio::sendOrder(int indx)  //o == order sucessfully sent // 1 == order already sent // 2 == order alrady filled // 9 == error
 {
 	if (ordersPending[indx].getStatus() == 0) 
 	{
-		orders[indx].send();
-		return 0;
+		if (totalBalance > ordersPending[indx].getSize() * ordersPending[indx].getPriceOnEntry()) //verificar se tem margem/grana para a operacao concluir 
+		{	
+			orders[indx].send();
+			return 0;
+		}
 	}
 	else 
 	{
@@ -65,20 +68,28 @@ int portfolio::sendOrder(int indx)  //o == order not sent // 1 == order already 
 		}
 		else 
 		{
+			ordersPending[indx].changeStatus(3);
 			return 2;
 		}
 	}
+	return 9;
 }
 void portfolio::checkOrders()
 {
-	for (int indx = 0; indx < orders.size(); indx++)
+	for (int indx = 0; indx < ordersPending.size(); indx++)
 	{
 		if (ordersPending[indx].getStatus() > 0)
 		{
-			//verificar se tem margem/grana para a operacao concluir
-			ordersPending[indx].changeStatus(3);
-			processFilledOrder(ordersPending[indx]);
-			
+			if (ordersPending[indx].getStatus() == 1 && totalBalance > ordersPending[indx].getSize() * ordersPending[indx].getPriceOnEntry())  //verificar se tem margem para a operacao concluir 
+			{	
+				processFilledOrder(ordersPending[indx]);
+				return;
+			}
+			if (ordersPending[indx].getStatus() == 0) // se for ordem de venda efetuar (MUDAR DEPOIS PARA INCORPORAR MARGEM)
+			{
+				processFilledOrder(ordersPending[indx]);
+				return;
+			}
 		}
 	}
 }
@@ -86,7 +97,7 @@ void portfolio::processFilledOrder(order& ordr)
 {
 	if (ordr.getType() == 0) //1 == mrktBuy 0 == mrktSell
 	{
-		cashBalance = cashBalance + (ordr.getPriceOnEntry() * ordr.getSize()); //encontra ganho com a venda do papel
+		cashBalance = cashBalance + (ordr.getPriceOnEntry() * ordr.getSizeModule()); //encontra ganho com a venda do papel
 		for (int i = 0; i < positions.size(); i++)
 		{
 			if (ordr.getName() == positions[i].getPaper()) // procura o nome do papel nas posições "filled"
@@ -99,7 +110,7 @@ void portfolio::processFilledOrder(order& ordr)
 	}
 	else
 	{
-		cashBalance = cashBalance + (ordr.getPriceOnEntry() * ordr.getSize()); //encontra ganho com a compra do papel
+		cashBalance = cashBalance - (ordr.getPriceOnEntry() * ordr.getSizeModule()); //encontra custo com a compra do papel
 		for (int i = 0; i < positions.size(); i++)
 		{
 			if (ordr.getName() == positions[i].getPaper()) // procura o nome do papel nas posições "filled"

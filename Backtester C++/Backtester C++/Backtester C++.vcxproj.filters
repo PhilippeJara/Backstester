@@ -30,6 +30,9 @@
     <ClInclude Include="cmdManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="stockStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Portfolio.cpp">
@@ -48,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cmdManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stockStream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
