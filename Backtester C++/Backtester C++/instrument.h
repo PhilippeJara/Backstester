@@ -20,7 +20,7 @@ public:
 
 //public:
 	instrument::instrument();
-	instrument::instrument(std::string);
+	instrument::instrument(std::string&);
 	
 	friend class csv;
 	

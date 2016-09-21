@@ -27,7 +27,4 @@ public:
 	std::string order::getName();
 	//change
 	void order::changeStatus(int);
-	//move
-	void order::send();
-
 };

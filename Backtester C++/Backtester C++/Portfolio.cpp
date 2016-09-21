@@ -8,6 +8,7 @@
 portfolio::portfolio(std::string nme, double TBal)
 {
 	name = nme;
+	cashBalance = TBal;
 	totalBalance = TBal;
 }
 
@@ -56,11 +57,11 @@ int portfolio::sendOrder(int indx)  //o == order sucessfully sent // 1 == order 
 	{
 		if (totalBalance > ordersPending[indx].getSize() * ordersPending[indx].getPriceOnEntry()) //verificar se tem margem/grana para a operacao concluir 
 		{	
-			orders[indx].send();
+			ordersPending[indx].changeStatus(3); // orders[indx].send(); envia a ordem para a exchange 
 			return 0;
 		}
 	}
-	else 
+	else
 	{
 		if (orders[indx].getStatus() == 1) 
 		{
@@ -80,12 +81,12 @@ void portfolio::checkOrders()
 	{
 		if (ordersPending[indx].getStatus() > 0)
 		{
-			if (ordersPending[indx].getStatus() == 1 && totalBalance > ordersPending[indx].getSize() * ordersPending[indx].getPriceOnEntry())  //verificar se tem margem para a operacao concluir 
+			if (ordersPending[indx].getType() == 1 && totalBalance > ordersPending[indx].getSize() * ordersPending[indx].getPriceOnEntry())  //verificar se tem margem para a operacao concluir 
 			{	
 				processFilledOrder(ordersPending[indx]);
 				return;
 			}
-			if (ordersPending[indx].getStatus() == 0) // se for ordem de venda efetuar (MUDAR DEPOIS PARA INCORPORAR MARGEM)
+			if (ordersPending[indx].getType() == 0) // se for ordem de venda efetuar (MUDAR DEPOIS PARA INCORPORAR MARGEM)
 			{
 				processFilledOrder(ordersPending[indx]);
 				return;

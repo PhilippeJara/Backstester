@@ -150,7 +150,7 @@
     <ClInclude Include="stockStream.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="body.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="cmdManager.cpp" />
     <ClCompile Include="csv.cpp" />
     <ClCompile Include="Instrument.cpp" />

@@ -10,6 +10,7 @@ order::order(std::string papr, int tpe, double poe,std::string tme, int sze)
 		size = sze;
 		time = tme;
 		priceOnEntry = poe;
+		status = 0;
 
 	}
 }
@@ -23,6 +24,7 @@ order::order(std::string papr, int tpe, double poe, std::string tme, int sze, do
 		time = tme;
 		priceOnEntry = poe;
 		stopLoss = sl;
+		status = 0;
 	}
 }
 
@@ -71,9 +73,4 @@ void order::changeStatus(int stat)
 {
 	status = stat;
 }
-//move
-void order::send()
-{
-	status = 2;
 
-}

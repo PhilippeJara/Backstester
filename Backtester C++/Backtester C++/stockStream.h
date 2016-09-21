@@ -4,7 +4,7 @@
 
 class stockStream
 {
-	instrument papr;
+	instrument *papr;
 	std::string date;
 	double open;
 	double high;
@@ -14,6 +14,6 @@ class stockStream
 	int index;
 	 
 public:
-	stockStream::stockStream(instrument&);
+	stockStream::stockStream(instrument*);
 	void stockStream::getNext();
 };

@@ -34,6 +34,7 @@ int csv::parseToInstrument(instrument& papel,std::string path, char delimiter)
 			int prev_delim = 0;
 			int curr_index = 0;
 			int coluna = 0;
+			papel.name = path;
 			for (std::string::iterator it = burner.begin(); it != burner.end(); it++)
 			{
 				if (*it == delimiter) 

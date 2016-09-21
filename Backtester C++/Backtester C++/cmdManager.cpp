@@ -55,7 +55,6 @@ int cmd::cmdParse(std::string& input, instrument** instruments,int& instrumentCo
 				csv.parseToInstrument(*instruments[instrumentCount], "C:\\Users\\Philippe\\Desktop\\papeis\\dados\\" + input + ".csv", ',');
 				instrumentCount++;
 				return 0;
-
 			}
 		}
 	
