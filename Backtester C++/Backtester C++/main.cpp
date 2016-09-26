@@ -18,11 +18,14 @@ int main()
 	std::cin >> in;
 	std::string path = "C:\\Users\\Philippe\\Desktop\\papeis\\dados\\" + in + ".csv";
 	f[0] = new instrument;  //f = new instrument [x]
-	csv.parseToInstrument(*f[0], path, ',');
-	portfolio.newOrder(f[0]->getName(), 1, f[0]->getClose(40), f[0]->getDate(40), 300);
+	csv.parseToInstrument(*f[0], in, ',');
+	stockStream stock(f[0]);
+	
+	
+	/*portfolio.newOrder(f[0]->getName(), 1, f[0]->getClose(40), f[0]->getDate(40), 300);
 	portfolio.sendOrder(0);
 	portfolio.checkOrders();
-	
+	*/
 	
 	
 	
@@ -34,7 +37,7 @@ int main()
 		cmd.cmdParse(in, f, instCount);
 	}*/
 	
-	//std::cout << "abc";
+	std::cout << "abc";
 	
 	
 	

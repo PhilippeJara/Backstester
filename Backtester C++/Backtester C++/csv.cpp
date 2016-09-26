@@ -19,7 +19,7 @@ csv::csv()
 int csv::parseToInstrument(instrument& papel,std::string path, char delimiter)
 {
 	std::ifstream file;
-	file.open(path);
+	file.open("C:\\Users\\Philippe\\Desktop\\papeis\\dados\\" + path + ".csv");
 	if (!file.is_open())
 	{
 		std::cout << "Falha abrindo o arquivo" << std::endl;

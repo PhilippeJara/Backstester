@@ -11,6 +11,9 @@ class stockStream
 	double low;
 	double close;
 	double volume;
+	double fixCost;
+	double varCost;
+	double margin;
 	int index;
 	 
 public:
