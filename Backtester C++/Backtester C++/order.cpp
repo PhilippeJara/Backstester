@@ -1,11 +1,13 @@
+#pragma once
 #include "order.h"
+#include "stockStream.h"
 
 
-order::order(std::string papr, int tpe, double poe,std::string tme, int sze)
+order::order(stockStream* papr, int tpe, double poe,std::string tme, int sze)
 {
 	if (tpe == 0 || tpe == 1)
 	{
-		name = papr;
+		stock = papr;
 		type = tpe;
 		size = sze;
 		time = tme;
@@ -14,11 +16,11 @@ order::order(std::string papr, int tpe, double poe,std::string tme, int sze)
 
 	}
 }
-order::order(std::string papr, int tpe, double poe, std::string tme, int sze, double sl) 
+order::order(stockStream* papr, int tpe, double poe, std::string tme, int sze, double sl) 
 {
 	if (type == 0 || type == 1) 
 	{
-		name = papr;
+		stock = papr;
 		type = tpe;
 		size = sze;
 		time = tme;
@@ -66,7 +68,7 @@ int order::getStatus()
 }
 std::string order::getName() 
 {
-	return name;
+	return "oi";
 }
 //change
 void order::changeStatus(int stat)

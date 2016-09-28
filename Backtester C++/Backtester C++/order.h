@@ -2,11 +2,12 @@
 #include <string>
 #include "Portfolio.h"
 #include "instrument.h"
+#include "stockStream.h"
 
 class order 
 {
 	friend class Portfolio;
-	std::string name;
+	stockStream *stock;
 	int type; //1 == mrktBuy 0 == mrktSell
 	double priceOnEntry;
 	double stopLoss;
@@ -14,8 +15,8 @@ class order
 	std::string time;
 	int status; //0 == pending 1 == sent 2 == filled and unnoticed 3 == filled and noticed
 public:
-	order::order(std::string, int, double,std::string, int);
-	order::order(std::string, int, double,std::string, int, double);
+	order::order(stockStream*, int, double,std::string, int);
+	order::order(stockStream*, int, double,std::string, int, double);
 	//get
 	int order::getType();
 	double order::getPriceOnEntry();

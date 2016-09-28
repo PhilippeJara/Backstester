@@ -5,6 +5,7 @@
 class stockStream
 {
 	instrument *papr;
+	std::string name;
 	std::string date;
 	double open;
 	double high;
@@ -14,6 +15,7 @@ class stockStream
 	double fixCost;
 	double varCost;
 	double margin;
+	double totalCost;
 	int index;
 	 
 public:

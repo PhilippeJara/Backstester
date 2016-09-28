@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Portfolio.h"
 #include "order.h"
+#include "stockStream.h"
 
 portfolio::portfolio(std::string nme, double TBal)
 {
@@ -41,12 +42,12 @@ order portfolio::getOrder(int indx)
 
 //order
  
-int portfolio::newOrder(std::string papr, int tpe, double poe, std::string tme, int sze) 
+int portfolio::newOrder(stockStream* papr, int tpe, double poe, std::string tme, int sze) 
 {
 	ordersPending.push_back(order(papr, tpe, poe,tme, sze));
 	return ordersPending.size();
 }
-int portfolio::newOrder(std::string papr, int tpe, double poe, std::string tme, int sze, double sl)
+int portfolio::newOrder(stockStream* papr, int tpe, double poe, std::string tme, int sze, double sl)
 {
 	ordersPending.push_back(order(papr, tpe, poe, tme, sze, sl));
 	return ordersPending.size();
@@ -98,7 +99,7 @@ void portfolio::processFilledOrder(order& ordr)
 {
 	if (ordr.getType() == 0) //1 == mrktBuy 0 == mrktSell
 	{
-		cashBalance = cashBalance + (ordr.getPriceOnEntry() * ordr.getSizeModule()); //encontra ganho com a venda do papel
+		cashBalance = cashBalance + (ordr.getPriceOnEntry() * ordr.getSizeModule()); //contabiliza ganho com a venda do papel
 		for (int i = 0; i < positions.size(); i++)
 		{
 			if (ordr.getName() == positions[i].getPaper()) // procura o nome do papel nas posições "filled"
@@ -111,7 +112,7 @@ void portfolio::processFilledOrder(order& ordr)
 	}
 	else
 	{
-		cashBalance = cashBalance - (ordr.getPriceOnEntry() * ordr.getSizeModule()); //encontra custo com a compra do papel
+		cashBalance = cashBalance - (ordr.getPriceOnEntry() * ordr.getSizeModule()); //contabiliza custo com a compra do papel
 		for (int i = 0; i < positions.size(); i++)
 		{
 			if (ordr.getName() == positions[i].getPaper()) // procura o nome do papel nas posições "filled"
@@ -155,4 +156,8 @@ int position::getPos()
 void position::changePos(int change)
 {
 	pos = pos + change;
+}
+double position::getMargin()
+{
+	return margin;
 }

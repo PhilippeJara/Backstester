@@ -5,12 +5,14 @@
 
 stockStream::stockStream(instrument* papr)
 {
+	name = papr->getName();
 	date = papr -> getDate(0);
 	open = papr -> getOpen(0);
 	high = papr -> getHigh(0);
 	low = papr -> getLow(0);
 	close = papr -> getClose(0);
 	volume = papr -> getVolume(0);
+	index = 0;
 	//encontra e define os dados de custos, margens e outras caracteristicas
 	
 	{
@@ -91,11 +93,15 @@ stockStream::stockStream(instrument* papr)
 				}
 			}
 		}
+		totalCost = close + fixCost;
 		return;
 	}
 }
 void stockStream::getNext()
 {
+	index ++;
 	open = papr -> getOpen(index);
 	high = papr -> getHigh(index);
+	low = papr-> getLow(index);
+	close = papr-> getClose(index);
 }
