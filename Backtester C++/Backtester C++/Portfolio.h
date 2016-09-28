@@ -39,8 +39,8 @@ public:
 	double portfolio::getBalance();
 	order portfolio::getOrder(int);
 	//orders
-	int portfolio::newOrder(stockStream*, int, double, std::string, int);
-	int portfolio::newOrder(stockStream*, int, double, std::string, int, double);
+	int portfolio::newOrder(stockStream*, int, int);
+	int portfolio::newOrder(stockStream*, int, int, double);
 	int portfolio::sendOrder(int);
 	void portfolio::checkOrders();
 	void portfolio::processFilledOrder(order&);

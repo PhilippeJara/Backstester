@@ -4,7 +4,8 @@
 
 class stockStream
 {
-	instrument *papr;
+public:
+	instrument* paper;
 	std::string name;
 	std::string date;
 	double open;
@@ -17,8 +18,7 @@ class stockStream
 	double margin;
 	double totalCost;
 	int index;
-	 
-public:
 	stockStream::stockStream(instrument*);
 	void stockStream::getNext();
+	std::string getName();
 };

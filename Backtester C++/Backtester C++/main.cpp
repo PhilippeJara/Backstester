@@ -9,7 +9,7 @@
 
 int main()
 {
-	instrument *f[20]; //instrument *f
+	instrument instStack[20]; //instruments on the stack
 	csv csv;
 	portfolio portfolio("joao",100000.0);
 	int instCount = 0;
@@ -17,15 +17,15 @@ int main()
 	std::string in;
 	std::cin >> in;
 	std::string path = "C:\\Users\\Philippe\\Desktop\\papeis\\dados\\" + in + ".csv";
-	f[0] = new instrument;  //f = new instrument [x]
-	csv.parseToInstrument(*f[0], in, ',');
-	stockStream stock(f[0]);
+	
+	csv.parseToInstrument(instStack[0], in, ',');
+	stockStream stock(&instStack[0]);
 	
 	
-	/*portfolio.newOrder(f[0]->getName(), 1, f[0]->getClose(40), f[0]->getDate(40), 300);
+	portfolio.newOrder(&stock, 1, 300);
 	portfolio.sendOrder(0);
 	portfolio.checkOrders();
-	*/
+	stock.getNext();
 	
 	
 	
@@ -37,7 +37,7 @@ int main()
 		cmd.cmdParse(in, f, instCount);
 	}*/
 	
-	std::cout << "abc";
+	std::cout << stock.date;
 	
 	
 	

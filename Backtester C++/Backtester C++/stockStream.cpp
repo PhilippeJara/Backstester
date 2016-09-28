@@ -5,7 +5,8 @@
 
 stockStream::stockStream(instrument* papr)
 {
-	name = papr->getName();
+	paper = papr;
+	name = papr-> getName();
 	date = papr -> getDate(0);
 	open = papr -> getOpen(0);
 	high = papr -> getHigh(0);
@@ -28,7 +29,7 @@ stockStream::stockStream(instrument* papr)
 			std::string burner;
 			double fxCost = 0;
 			double vrCost = 0;
-			int mrgin;
+			//int mrgin;
 			bool exflag;
 			bool match;
 			while (file.good())
@@ -100,8 +101,10 @@ stockStream::stockStream(instrument* papr)
 void stockStream::getNext()
 {
 	index ++;
-	open = papr -> getOpen(index);
-	high = papr -> getHigh(index);
-	low = papr-> getLow(index);
-	close = papr-> getClose(index);
+	open = paper -> getOpen(index);
+	high = paper -> getHigh(index);
+	low = paper -> getLow(index);
+	close = paper -> getClose(index);
+	date = paper -> getDate(index);
 }
+std::string stockStream::getName() { return name; }

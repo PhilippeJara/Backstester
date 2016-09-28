@@ -24,14 +24,11 @@ instrument::instrument(std::string& nome)
 	std::vector<double> close(0);
 	std::vector<double> volume(0);
 };
-std::string instrument::getName() 
-{
-	return name;
-}
-std::vector<std::string> instrument::getDate()
-{
-	return date;
-}
+
+//gets
+
+std::string instrument::getName() {return name;}
+std::vector<std::string> instrument::getDate(){return date;}
 std::vector<std::string> instrument::getDate(unsigned int lowerIndex, unsigned int upperIndex)
 {
 	if (date.size() < upperIndex)
@@ -48,14 +45,8 @@ std::vector<std::string> instrument::getDate(unsigned int lowerIndex, unsigned i
 		return ret;
 	}
 }
-std::string instrument::getDate(int index)
-{
-	return date[index];
-}
-std::vector<double> instrument::getOpen()
-{
-	return open;
-}
+std::string instrument::getDate(int index){return date[index];}
+std::vector<double> instrument::getOpen(){return open;}
 std::vector<double> instrument::getOpen(unsigned int lowerIndex, unsigned int upperIndex)
 {
 	if (open.size() < upperIndex)
@@ -72,14 +63,8 @@ std::vector<double> instrument::getOpen(unsigned int lowerIndex, unsigned int up
 		return ret;
 	}
 }
-double instrument::getOpen(int index)
-{
-	return open[index];
-}
-std::vector<double> instrument::getHigh()
-{
-	return high;
-}
+double instrument::getOpen(int index){return open[index];}
+std::vector<double> instrument::getHigh(){return high;}
 std::vector<double> instrument::getHigh(unsigned int lowerIndex, unsigned int upperIndex)
 {
 	if (high.size() < upperIndex)
@@ -96,13 +81,8 @@ std::vector<double> instrument::getHigh(unsigned int lowerIndex, unsigned int up
 		return ret;
 	}
 }
-double instrument::getHigh(int index)
-{
-	return high[index];
-}
-std::vector<double> instrument::getLow() {
-	return low;
-}
+double instrument::getHigh(int index){return high[index];}
+std::vector<double> instrument::getLow() {return low;}
 std::vector<double> instrument::getLow(unsigned int lowerIndex, unsigned int upperIndex)
 {
 	if (low.size() < upperIndex)
@@ -119,13 +99,8 @@ std::vector<double> instrument::getLow(unsigned int lowerIndex, unsigned int upp
 		return ret;
 	}
 }
-double instrument::getLow(int index)
-{
-	return low[index];
-}
-std::vector<double> instrument::getClose() {
-	return close;
-}
+double instrument::getLow(int index){return low[index];}
+std::vector<double> instrument::getClose() {return close;}
 std::vector<double> instrument::getClose(unsigned int lowerIndex, unsigned int upperIndex)
 {
 	if (close.size() < upperIndex)
@@ -142,13 +117,8 @@ std::vector<double> instrument::getClose(unsigned int lowerIndex, unsigned int u
 		return ret;
 	}
 }
-double instrument::getClose(int index)
-{
-	return close[index];
-}
-std::vector<double> instrument::getVolume() {
-	return volume;
-}
+double instrument::getClose(int index){return close[index];}
+std::vector<double> instrument::getVolume() {return volume;}
 std::vector<double> instrument::getVolume(unsigned int lowerIndex, unsigned int upperIndex)
 {
 	if (volume.size() < upperIndex)
@@ -165,7 +135,4 @@ std::vector<double> instrument::getVolume(unsigned int lowerIndex, unsigned int 
 		return ret;
 	}
 }
-double instrument::getVolume(int index)
-{
-	return volume[index];
-}
+double instrument::getVolume(int index){return volume[index];}

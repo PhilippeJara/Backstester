@@ -15,41 +15,23 @@ portfolio::portfolio(std::string nme, double TBal)
 
 //get
 
-std::string portfolio::getName()
-{
-	return name;
-}
-double portfolio::getCash() 
-{
-	return cashBalance;
-}
-std::vector<position> portfolio::getPos() 
-{
-	return positions;
-}
-double portfolio::getBalance() 
-{
-	return totalBalance;
-}
-std::vector<order> portfolio::getOrders() 
-{
-	return orders;
-}
-order portfolio::getOrder(int indx) 
-{
-	return orders[indx];
-}
+std::string portfolio::getName(){return name;}
+double portfolio::getCash() {return cashBalance;}
+std::vector<position> portfolio::getPos() {return positions;}
+double portfolio::getBalance() {return totalBalance;}
+std::vector<order> portfolio::getOrders() {return orders;}
+order portfolio::getOrder(int indx) {return orders[indx];}
 
 //order
  
-int portfolio::newOrder(stockStream* papr, int tpe, double poe, std::string tme, int sze) 
+int portfolio::newOrder(stockStream* papr, int tpe, int sze) 
 {
-	ordersPending.push_back(order(papr, tpe, poe,tme, sze));
+	ordersPending.push_back(order(papr, tpe, sze));
 	return ordersPending.size();
 }
-int portfolio::newOrder(stockStream* papr, int tpe, double poe, std::string tme, int sze, double sl)
+int portfolio::newOrder(stockStream* papr, int tpe, int sze, double sl)
 {
-	ordersPending.push_back(order(papr, tpe, poe, tme, sze, sl));
+	ordersPending.push_back(order(papr, tpe, sze, sl));
 	return ordersPending.size();
 }
 int portfolio::sendOrder(int indx)  //o == order sucessfully sent // 1 == order already sent // 2 == order alrady filled // 9 == error
@@ -87,7 +69,7 @@ void portfolio::checkOrders()
 				processFilledOrder(ordersPending[indx]);
 				return;
 			}
-			if (ordersPending[indx].getType() == 0) // se for ordem de venda efetuar (MUDAR DEPOIS PARA INCORPORAR MARGEM)
+			if (ordersPending[indx].getType() == 0 && totalBalance > ordersPending[indx].getAbsoluteSize() * ordersPending[indx].getPriceOnEntry()) // somente permitir a venda de 100% do valor total do portfolio(MUDAR DEPOIS PARA INCORPORAR MARGEM)
 			{
 				processFilledOrder(ordersPending[indx]);
 				return;
@@ -145,19 +127,7 @@ position::position(std::string papr, int size)
 	paper = papr;
 	pos = size;
 }
-std::string position::getPaper()
-{
-	return paper;
-}
-int position::getPos()
-{
-	return pos;
-}
-void position::changePos(int change)
-{
-	pos = pos + change;
-}
-double position::getMargin()
-{
-	return margin;
-}
+std::string position::getPaper(){return paper;}
+int position::getPos(){return pos;}
+void position::changePos(int change){pos = pos + change;}
+double position::getMargin(){return margin;}
