@@ -6,6 +6,7 @@
 
 class order 
 {
+public:
 	friend class Portfolio;
 	stockStream* stock;
 	int type; //1 == mrktBuy 0 == mrktSell
@@ -14,7 +15,7 @@ class order
 	int size;
 	std::string time;
 	int status; //0 == pending 1 == sent 2 == filled and unnoticed 3 == filled and noticed
-public:
+
 	order::order(stockStream*, int, int);
 	order::order(stockStream*, int, int, double);
 	//get

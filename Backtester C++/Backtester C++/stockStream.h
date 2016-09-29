@@ -8,6 +8,7 @@ public:
 	instrument* paper;
 	std::string name;
 	std::string date;
+	double delta;
 	double open;
 	double high;
 	double low;
@@ -18,6 +19,8 @@ public:
 	double margin;
 	double totalCost;
 	int index;
+	
+	//constructor
 	stockStream::stockStream(instrument*);
 	void stockStream::getNext();
 	std::string getName();

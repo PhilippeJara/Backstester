@@ -58,7 +58,7 @@ int portfolio::sendOrder(int indx)  //o == order sucessfully sent // 1 == order 
 	}
 	return 9;
 }
-void portfolio::checkOrders()
+void portfolio::checkPendingOrders()
 {
 	for (int indx = 0; indx < ordersPending.size(); indx++)
 	{
@@ -90,7 +90,7 @@ void portfolio::processFilledOrder(order& ordr)
 				return;
 			}
 		}
-		positions.push_back(position(ordr.getName(), ordr.getSize()));  // caso o papel não tenha sido negociado ainda, adiciona
+		positions.push_back(position(ordr.stock, ordr.getSize()));  // caso o papel não tenha sido negociado ainda, adiciona
 	}
 	else
 	{
@@ -104,7 +104,7 @@ void portfolio::processFilledOrder(order& ordr)
 			}
 		}
 		
-		positions.push_back(position(ordr.getName(), ordr.getSize()));  // caso o papel não tenha sido negociado ainda, adiciona
+		positions.push_back(position(ordr.stock, ordr.getSize()));  // caso o papel não tenha sido negociado ainda, adiciona
 	}
 	for (int i = 0; i < ordersPending.size(); i++) // procura aonde em ordersPending o papel está, move o papel para orders e o deleta de ordersPending
 	{
@@ -115,19 +115,30 @@ void portfolio::processFilledOrder(order& ordr)
 		}
 	}
 }
-
+void portfolio::update()
+{
+	for (int i = 0; i < positions.size(); i++)
+	{
+		if ((positions[i].size == 0 && positions[i].stopLoss > positions[i].paper->close) || (positions[i].size == 1 && 
+																		positions[i].stopLoss < positions[i].paper->close)) //verifica o stoploss de ativos , ****debuga ate o talo****
+		{
+			positions[i].changePos(-positions[i].size);
+		}
+		totalBalance = totalBalance + (positions[i].paper->delta * positions[i].size); //adiciona o delta ao valor total do portfolio, se ele for negativo subtrai
+	}
+}
 
 
 
 
 //POSITION CLASS
 
-position::position(std::string papr, int size)
+position::position(stockStream* papr, int sze)
 {
 	paper = papr;
-	pos = size;
+	size = size;
 }
-std::string position::getPaper(){return paper;}
-int position::getPos(){return pos;}
-void position::changePos(int change){pos = pos + change;}
+std::string position::getPaper(){return paper->getName();}
+int position::getPos(){return size;}
+void position::changePos(int change){size = size + change;}
 double position::getMargin(){return margin;}

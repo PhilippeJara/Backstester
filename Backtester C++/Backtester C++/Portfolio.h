@@ -8,10 +8,11 @@ class position
 {
 	friend class portfolio;
 	friend class order;
-	std::string paper;
-	int pos;
+	stockStream* paper;
+	int size;
 	double margin;
-	position::position(std::string, int);
+	double stopLoss;
+	position::position(stockStream*, int);
 	std::string position::getPaper();
 	int position::getPos();
 	void position::changePos(int);
@@ -27,7 +28,7 @@ class portfolio
 	double totalBalance;
 	std::vector<position> positions;
 	std::vector<order> orders; //orders == filed
-	std::vector<order> ordersPending; // ordersPending == pending/not filled
+	std::vector<order> ordersPending; // ordersPending == filled and not noticed/not filled
 
 public:
 	portfolio::portfolio(std::string, double);
@@ -42,7 +43,9 @@ public:
 	int portfolio::newOrder(stockStream*, int, int);
 	int portfolio::newOrder(stockStream*, int, int, double);
 	int portfolio::sendOrder(int);
-	void portfolio::checkOrders();
+	void portfolio::checkPendingOrders();
 	void portfolio::processFilledOrder(order&);
+	//update
+	void portfolio::update();
 };
 

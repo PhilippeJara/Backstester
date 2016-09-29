@@ -17,14 +17,14 @@ int main()
 	std::string in;
 	std::cin >> in;
 	std::string path = "C:\\Users\\Philippe\\Desktop\\papeis\\dados\\" + in + ".csv";
-	
 	csv.parseToInstrument(instStack[0], in, ',');
 	stockStream stock(&instStack[0]);
 	
 	
 	portfolio.newOrder(&stock, 1, 300);
 	portfolio.sendOrder(0);
-	portfolio.checkOrders();
+	portfolio.checkPendingOrders();
+	portfolio.update();
 	stock.getNext();
 	
 	
