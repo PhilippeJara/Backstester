@@ -81,7 +81,7 @@ void portfolio::processFilledOrder(order& ordr)
 {
 	if (ordr.getType() == 0) //1 == mrktBuy 0 == mrktSell
 	{
-		cashBalance = cashBalance + (ordr.getPriceOnEntry() * ordr.getSizeModule()); //contabiliza ganho com a venda do papel
+		cashBalance = cashBalance + (ordr.getPriceOnEntry() * ordr.getAbsoluteSize()); //contabiliza ganho com a venda do papel
 		for (int i = 0; i < positions.size(); i++)
 		{
 			if (ordr.getName() == positions[i].getPaper()) // procura o nome do papel nas posições "filled"
@@ -94,7 +94,7 @@ void portfolio::processFilledOrder(order& ordr)
 	}
 	else
 	{
-		cashBalance = cashBalance - (ordr.getPriceOnEntry() * ordr.getSizeModule()); //contabiliza custo com a compra do papel
+		cashBalance = cashBalance - (ordr.getPriceOnEntry() * ordr.getAbsoluteSize()); //contabiliza custo com a compra do papel
 		for (int i = 0; i < positions.size(); i++)
 		{
 			if (ordr.getName() == positions[i].getPaper()) // procura o nome do papel nas posições "filled"
