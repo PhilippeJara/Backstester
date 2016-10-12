@@ -10,6 +10,7 @@ portfolio::portfolio(std::string nme, double TBal)
 {
 	name = nme;
 	cashBalance = TBal;
+	stockValue = 0;
 	totalBalance = TBal;
 }
 
@@ -82,6 +83,7 @@ void portfolio::processFilledOrder(order& ordr)
 	if (ordr.getType() == 0) //1 == mrktBuy 0 == mrktSell
 	{
 		cashBalance = cashBalance + (ordr.getPriceOnEntry() * ordr.getAbsoluteSize()); //contabiliza ganho com a venda do papel
+		stockValue = stockValue - (ordr.stock->close * ordr.getSize());
 		for (int i = 0; i < positions.size(); i++)
 		{
 			if (ordr.getName() == positions[i].getPaper()) // procura o nome do papel nas posições "filled"
@@ -94,17 +96,21 @@ void portfolio::processFilledOrder(order& ordr)
 	}
 	else
 	{
+		bool flag = false;
 		cashBalance = cashBalance - (ordr.getPriceOnEntry() * ordr.getAbsoluteSize()); //contabiliza custo com a compra do papel
+		stockValue = stockValue - (ordr.stock->close * ordr.getSize());
 		for (int i = 0; i < positions.size(); i++)
 		{
 			if (ordr.getName() == positions[i].getPaper()) // procura o nome do papel nas posições "filled"
 			{
 				positions[i].changePos(ordr.getSize()); // caso já haja operação com o papel, atualiza a posição de tal operação
-				return;
+				flag = true;
 			}
 		}
-		
-		positions.push_back(position(ordr.stock, ordr.getSize()));  // caso o papel não tenha sido negociado ainda, adiciona
+		if (flag == false)
+		{
+			positions.push_back(position(ordr.stock, ordr.getSize()));  // caso o papel não tenha sido negociado ainda, adiciona
+		}
 	}
 	for (int i = 0; i < ordersPending.size(); i++) // procura aonde em ordersPending o papel está, move o papel para orders e o deleta de ordersPending
 	{
@@ -124,7 +130,7 @@ void portfolio::update()
 		{
 			positions[i].changePos(-positions[i].size);
 		}
-		totalBalance = totalBalance + (positions[i].paper->delta * positions[i].size); //adiciona o delta ao valor total do portfolio, se ele for negativo subtrai
+		totalBalance = cashBalance + stockValue + (positions[i].paper->delta * positions[i].size) ; //adiciona o delta ao valor total do portfolio, se ele for negativo subtrai
 	}
 }
 
@@ -136,7 +142,7 @@ void portfolio::update()
 position::position(stockStream* papr, int sze)
 {
 	paper = papr;
-	size = size;
+	size = sze;
 }
 std::string position::getPaper(){return paper->getName();}
 int position::getPos(){return size;}

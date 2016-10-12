@@ -24,6 +24,7 @@ class portfolio
 	friend class order;
 	std::string name;
 	double cashBalance;
+	double stockValue;
 	double marginBalance;
 	double totalBalance;
 	std::vector<position> positions;

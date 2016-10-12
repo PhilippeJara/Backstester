@@ -19,13 +19,21 @@ int main()
 	std::string path = "C:\\Users\\Philippe\\Desktop\\papeis\\dados\\" + in + ".csv";
 	csv.parseToInstrument(instStack[0], in, ',');
 	stockStream stock(&instStack[0]);
-	
-	
-	portfolio.newOrder(&stock, 1, 300);
-	portfolio.sendOrder(0);
-	portfolio.checkPendingOrders();
-	portfolio.update();
-	stock.getNext();
+	for (int i = 0; i < 1000; i++)
+	{
+		if (i % 5 == 0)
+		{
+			portfolio.sendOrder(portfolio.newOrder(&stock, 1, 1000)-1);
+		}
+		portfolio.checkPendingOrders();
+		portfolio.update();
+		stock.getNext();
+	}
+	//*portfolio.newOrder(&stock, 1, 300);
+	//portfolio.sendOrder(0);
+	//portfolio.checkPendingOrders();
+	//portfolio.update();
+	//stock.getNext();*/
 	
 	
 	
