@@ -10,6 +10,7 @@ portfolio::portfolio(std::string nme, double TBal)
 {
 	name = nme;
 	cashBalance = TBal;
+	marginBalance = 0;
 	stockValue = 0;
 	totalBalance = TBal;
 }
@@ -39,10 +40,14 @@ int portfolio::sendOrder(int indx)  //o == order sucessfully sent // 1 == order 
 {
 	if (ordersPending[indx].getStatus() == 0) 
 	{
-		if (totalBalance > ordersPending[indx].getSize() * ordersPending[indx].getPriceOnEntry()) //verificar se tem margem/grana para a operacao concluir 
+		if (totalBalance > ordersPending[indx].getSize() * ordersPending[indx].getPriceOnEntry() && cashBalance > ordersPending[indx].getSize() * ordersPending[indx].getPriceOnEntry()) //verificar se tem margem/grana para a operacao concluir //TEMPORARIO: se o cashbalance é 0, não pode mais comprar
 		{	
 			ordersPending[indx].changeStatus(3); // orders[indx].send(); envia a ordem para a exchange 
 			return 0;
+		}
+		else
+		{
+			ordersPending[indx].changeStatus(4);
 		}
 	}
 	else
@@ -63,14 +68,15 @@ void portfolio::checkPendingOrders()
 {
 	for (int indx = 0; indx < ordersPending.size(); indx++)
 	{
-		if (ordersPending[indx].getStatus() > 0)
+		if (ordersPending[indx].getStatus() > 0 && ordersPending[indx].getStatus() < 4)
 		{
 			if (ordersPending[indx].getType() == 1 && totalBalance > ordersPending[indx].getSize() * ordersPending[indx].getPriceOnEntry())  //verificar se tem margem para a operacao concluir 
 			{	
 				processFilledOrder(ordersPending[indx]);
 				return;
 			}
-			if (ordersPending[indx].getType() == 0 && totalBalance > ordersPending[indx].getAbsoluteSize() * ordersPending[indx].getPriceOnEntry()) // somente permitir a venda de 100% do valor total do portfolio(MUDAR DEPOIS PARA INCORPORAR MARGEM)
+			if (ordersPending[indx].getType() == 0 && cashBalance > ordersPending[indx].getAbsoluteSize() * ordersPending[indx].getPriceOnEntry()||
+				ordersPending[indx].getType() == 0 && stockValue > ordersPending[indx].getAbsoluteSize() * ordersPending[indx].getPriceOnEntry()) // somente permitir a venda de 100% do valor total do portfolio(MUDAR DEPOIS PARA INCORPORAR MARGEM)
 			{
 				processFilledOrder(ordersPending[indx]);
 				return;
@@ -80,30 +86,36 @@ void portfolio::checkPendingOrders()
 }
 void portfolio::processFilledOrder(order& ordr)
 {
+	bool flag = false;
 	if (ordr.getType() == 0) //1 == mrktBuy 0 == mrktSell
 	{
-		cashBalance = cashBalance + (ordr.getPriceOnEntry() * ordr.getAbsoluteSize()); //contabiliza ganho com a venda do papel
-		stockValue = stockValue - (ordr.stock->close * ordr.getSize());
 		for (int i = 0; i < positions.size(); i++)
 		{
 			if (ordr.getName() == positions[i].getPaper()) // procura o nome do papel nas posições "filled"
 			{
 				positions[i].changePos(ordr.getSize()); // caso já haja operação com o papel, atualiza a posição de tal operação
-				return;
+				flag = true;
+				//ordersPending.erase(ordersPending.begin() + i);
+				//return;
 			}
 		}
-		positions.push_back(position(ordr.stock, ordr.getSize()));  // caso o papel não tenha sido negociado ainda, adiciona
+		if (flag == false)
+		{
+			if ((ordr.size * ordr.priceOnEntry) + totalBalance > 0)
+			{
+				positions.push_back(position(ordr.stock, ordr.getSize())); //SHORT caso o papel não tenha sido negociado ainda e caso tenha balance alto suficiente, adiciona
+			}
+		}
 	}
 	else
 	{
-		bool flag = false;
 		cashBalance = cashBalance - (ordr.getPriceOnEntry() * ordr.getAbsoluteSize()); //contabiliza custo com a compra do papel
-		stockValue = stockValue - (ordr.stock->close * ordr.getSize());
+		stockValue = stockValue + (ordr.stock->close * ordr.getSize());
 		for (int i = 0; i < positions.size(); i++)
 		{
-			if (ordr.getName() == positions[i].getPaper()) // procura o nome do papel nas posições "filled"
+			if (ordr.getName() == positions[i].getPaper()) // procura o nome do papel nas posições "filled",caso já haja operação com o papel entra
 			{
-				positions[i].changePos(ordr.getSize()); // caso já haja operação com o papel, atualiza a posição de tal operação
+				positions[i].changePos(ordr.getSize()); // atualiza a posição de tal operação
 				flag = true;
 			}
 		}
@@ -120,18 +132,25 @@ void portfolio::processFilledOrder(order& ordr)
 			ordersPending.erase(ordersPending.begin() + i);
 		}
 	}
+	cashBalance = cashBalance + (ordr.getPriceOnEntry() * ordr.getAbsoluteSize()); //contabiliza ganho com a venda do papel
+	stockValue = stockValue + (ordr.stock->close * ordr.getSize());
 }
 void portfolio::update()
 {
 	for (int i = 0; i < positions.size(); i++)
 	{
-		if ((positions[i].size == 0 && positions[i].stopLoss > positions[i].paper->close) || (positions[i].size == 1 && 
+		if ((positions[i].size > 0 && positions[i].stopLoss > positions[i].paper->close) || (positions[i].size < 0 && 
 																		positions[i].stopLoss < positions[i].paper->close)) //verifica o stoploss de ativos , ****debuga ate o talo****
 		{
 			positions[i].changePos(-positions[i].size);
 		}
-		totalBalance = cashBalance + stockValue + (positions[i].paper->delta * positions[i].size) ; //adiciona o delta ao valor total do portfolio, se ele for negativo subtrai
+		if (positions[i].size < 0 && (positions[i].size * positions[i].paper->close) * -1  >  totalBalance) // verifica se há garantias para manter o short 
+		{
+			positions[i].changePos(-positions[i].size);
+		}
+		stockValue = stockValue + (positions[i].paper->delta * positions[i].size); //adiciona o delta ao stockValue
 	}
+	totalBalance = cashBalance + stockValue; //encontra o balanço final
 }
 
 

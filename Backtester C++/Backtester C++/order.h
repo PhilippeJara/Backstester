@@ -14,7 +14,7 @@ public:
 	double stopLoss;
 	int size;
 	std::string time;
-	int status; //0 == pending 1 == sent 2 == filled and unnoticed 3 == filled and noticed
+	int status; //0 == pending 1 == sent 2 == filled and unnoticed 3 == filled and noticed 4 == sent and rejected
 
 	order::order(stockStream*, int, int);
 	order::order(stockStream*, int, int, double);

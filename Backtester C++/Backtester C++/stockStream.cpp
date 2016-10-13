@@ -102,12 +102,12 @@ stockStream::stockStream(instrument* papr)
 void stockStream::getNext()
 {
 	index++;
-	delta = (paper -> getClose(index)) - close; // subtrai o valor do ponto que foi chamado com o valor ainda nao atulizado de close 
-	open = paper -> getOpen(index);
-	high = paper -> getHigh(index);
-	low = paper -> getLow(index);
-	close = paper -> getClose(index);
-	date = paper -> getDate(index);
+	delta = (paper -> getClose(index-1)) - close; // subtrai o valor do ponto que foi chamado com o valor ainda nao atulizado de close 
+	open = paper -> getOpen(index-1);
+	high = paper -> getHigh(index-1);
+	low = paper -> getLow(index-1);
+	close = paper -> getClose(index-1);
+	date = paper -> getDate(index-1);
 	return;
 }
 std::string stockStream::getName() { return name; }

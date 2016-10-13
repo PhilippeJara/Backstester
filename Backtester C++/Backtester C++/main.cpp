@@ -11,7 +11,7 @@ int main()
 {
 	instrument instStack[20]; //instruments on the stack
 	csv csv;
-	portfolio portfolio("joao",100000.0);
+	portfolio portfolio("portfolio" , 100000);
 	int instCount = 0;
 	int p = 0;
 	std::string in;
@@ -19,11 +19,12 @@ int main()
 	std::string path = "C:\\Users\\Philippe\\Desktop\\papeis\\dados\\" + in + ".csv";
 	csv.parseToInstrument(instStack[0], in, ',');
 	stockStream stock(&instStack[0]);
-	for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < instStack[0].close.size(); i++)
 	{
 		if (i % 5 == 0)
 		{
-			portfolio.sendOrder(portfolio.newOrder(&stock, 1, 1000)-1);
+			portfolio.sendOrder(portfolio.newOrder(&stock, 0, 1000)-1);
+			portfolio.sendOrder(portfolio.newOrder(&stock, 1, 1000) - 1);
 		}
 		portfolio.checkPendingOrders();
 		portfolio.update();
