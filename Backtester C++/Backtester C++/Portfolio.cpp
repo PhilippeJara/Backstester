@@ -87,25 +87,48 @@ void portfolio::checkPendingOrders()
 void portfolio::processFilledOrder(order& ordr)
 {
 	bool flag = false;
-	if (ordr.getType() == 0) //1 == mrktBuy 0 == mrktSell
+	if (ordr.getType() == 0) //0 == mrktSell 1 == mrktBuy
 	{
-		for (int i = 0; i < positions.size(); i++)
+		for ( int i = 0; i < positions.size(); i++)
 		{
 			if (ordr.getName() == positions[i].getPaper()) // procura o nome do papel nas posições "filled"
+			{ 
+				if (ordr.size + positions[i].size < 0) // verifica se é short
+				{
+					if ((ordr.size * ordr.priceOnEntry) * -1 > totalBalance) //verifica se tem garantias pra entrar descoberto, verdadeiro quando NÃO tem (100% de margem)
+					{
+						return; // retorna caso não possa shortear por falta de margem
+					}
+				}
+				positions[i].changePos(ordr.getSize()); // caso já haja operação com o papel e -se for o caso- pode shortear, atualiza a posição de tal operação
+			}
+			
+			//caso seja uma posição nova, será short
+			if ((ordr.size * ordr.priceOnEntry) * -1 > totalBalance) //verifica se tem garantias ... cópia
 			{
-				positions[i].changePos(ordr.getSize()); // caso já haja operação com o papel, atualiza a posição de tal operação
-				flag = true;
-				//ordersPending.erase(ordersPending.begin() + i);
-				//return;
+				positions.push_back(position(ordr.stock, ordr.getSize())); //adiciona operação às posições
 			}
 		}
-		if (flag == false)
-		{
-			if ((ordr.size * ordr.priceOnEntry) + totalBalance > 0)
-			{
-				positions.push_back(position(ordr.stock, ordr.getSize())); //SHORT caso o papel não tenha sido negociado ainda e caso tenha balance alto suficiente, adiciona
-			}
-		}
+		
+		
+		
+		//for (int i = 0; i < positions.size(); i++)
+		//{
+		//	if (ordr.getName() == positions[i].getPaper()) // procura o nome do papel nas posições "filled"
+		//	{
+		//		positions[i].changePos(ordr.getSize()); // caso já haja operação com o papel, atualiza a posição de tal operação
+		//		flag = true;
+		//		//ordersPending.erase(ordersPending.begin() + i);
+		//		//return;
+		//	}
+		//}
+		//if (flag == false)
+		//{
+		//	if ((ordr.size * ordr.priceOnEntry) + totalBalance > 0)
+		//	{
+		//		positions.push_back(position(ordr.stock, ordr.getSize())); //SHORT caso o papel não tenha sido negociado ainda e caso tenha balance alto suficiente, adiciona
+		//	}
+		//}
 	}
 	else
 	{
@@ -133,7 +156,7 @@ void portfolio::processFilledOrder(order& ordr)
 		}
 	}
 	cashBalance = cashBalance + (ordr.getPriceOnEntry() * ordr.getAbsoluteSize()); //contabiliza ganho com a venda do papel
-	stockValue = stockValue + (ordr.stock->close * ordr.getSize());
+	stockValue = stockValue + (ordr.getPriceOnEntry() * ordr.getSize());
 }
 void portfolio::update()
 {

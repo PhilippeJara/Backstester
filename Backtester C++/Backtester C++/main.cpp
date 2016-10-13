@@ -23,8 +23,8 @@ int main()
 	{
 		if (i % 5 == 0)
 		{
-			portfolio.sendOrder(portfolio.newOrder(&stock, 0, 1000)-1);
-			portfolio.sendOrder(portfolio.newOrder(&stock, 1, 1000) - 1);
+			portfolio.sendOrder(portfolio.newOrder(&stock, 1, 1000)-1);
+			portfolio.sendOrder(portfolio.newOrder(&stock, 0, 1000) - 1);
 		}
 		portfolio.checkPendingOrders();
 		portfolio.update();
