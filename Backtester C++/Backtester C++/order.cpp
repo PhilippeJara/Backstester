@@ -42,7 +42,7 @@ int order::getSize()
 	}
 	else
 	{
-		return (size * -1);
+		return (-size);
 	}
 }
 int order::getAbsoluteSize(){return size;}

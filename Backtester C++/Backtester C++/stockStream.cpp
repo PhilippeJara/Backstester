@@ -14,7 +14,7 @@ stockStream::stockStream(instrument* papr)
 	low = papr -> getLow(0);
 	close = papr -> getClose(0);
 	volume = papr -> getVolume(0);
-	index = 0;
+	index = 1;
 	//encontra e define os dados de custos, margens e outras caracteristicas
 	
 	{

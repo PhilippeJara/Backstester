@@ -45,7 +45,7 @@ public:
 	int portfolio::newOrder(stockStream*, int, int, double);
 	int portfolio::sendOrder(int);
 	void portfolio::checkPendingOrders();
-	void portfolio::processFilledOrder(order&);
+	int portfolio::processFilledOrder(order&);
 	//update
 	void portfolio::update();
 };
